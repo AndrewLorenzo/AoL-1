@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-//#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 struct Hotel {
 	char location[101];
 	char city[101];
@@ -16,6 +13,20 @@ void swap (struct Hotel *a, struct Hotel *b) {
 	struct Hotel t = *a;
 	*a = *b;
 	*b = t;
+}
+void printH(){
+	puts(" _______________________________________________________________________________________________________________________________________________________________________");
+	puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type                 |Furnish             |");
+	puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________________|____________________|");
+	}
+
+void printB(Hotel cust){
+	printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-20s |%-20s|\n", cust.location, cust.city, cust.price, cust.room, cust.bath, cust.car, cust.type, cust.furnish);
+}
+
+void printT(){
+	puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________________|____________________|");
+
 }
 int partitioningL(struct Hotel a[], int left, int right, char type[]) {
 	struct Hotel pivot = a[right];
@@ -263,17 +274,16 @@ int main () {
 		scanf("%d", &c);
 		getchar();
 		if (c==1) {
+			printf("Total data : %d\n", jml);
 			printf("Number of rows: ");
 			scanf("%d", &n);
 			getchar();// 
 			system("cls");
-			puts(" __________________________________________________________________________________________________________________________________________________________");
-			puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-			puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+			printH();
 			for (int i=0; i<n; i++) {
-				printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
+				printB(cust[i]);
 			}
-			puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+			printT();
 		}
 		else if (c==2) {
 			int isFound=0;
@@ -292,15 +302,11 @@ int main () {
 					}
 				}
 				if (isFound) {
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].location)==0) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (strcmpi(loc, cust[i].location)==0) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else if (!isFound) {
 					puts("Data not found!");
@@ -318,15 +324,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (r==cust[i].room) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (r==cust[i].room) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else if (!isFound) {
 					puts("Data not found!");
@@ -344,15 +346,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (r==cust[i].car) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (r==cust[i].car) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else if (!isFound) {
 					puts("Data not found!");
@@ -370,15 +368,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (pr==cust[i].price) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (r==cust[i].car) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else if (!isFound) {
 					puts("Data not found!");
@@ -396,15 +390,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (cust[i].bath==pr) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (cust[i].bath==pr) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else if (!isFound) {
 					puts("Data not found!");
@@ -422,15 +412,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].furnish)==0) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (strcmpi(loc, cust[i].furnish)==0) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else {
 					puts("Data not found!");
@@ -448,15 +434,11 @@ int main () {
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
-					puts(" __________________________________________________________________________________________________________________________________________________________");
-					puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type         |Furnish        |");
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printH();
 					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].type)==0) {
-							printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-12s |%-15s|\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-						}
+						if (strcmpi(loc, cust[i].type)==0) printB(cust[i]);
 					}
-					puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________|_______________|");
+					printT();
 				}
 				else {
 					puts("Data not found!");
