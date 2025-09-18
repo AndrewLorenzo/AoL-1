@@ -14,20 +14,20 @@ void swap (struct Hotel *a, struct Hotel *b) {
 	*a = *b;
 	*b = t;
 }
+void printT(){
+	puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________________|____________________|");
+
+}
 void printH(){
 	puts(" _______________________________________________________________________________________________________________________________________________________________________");
 	puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type                 |Furnish             |");
-	puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________________|____________________|");
+	printT();
 	}
 
 void printB(Hotel cust){
 	printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-20s |%-20s|\n", cust.location, cust.city, cust.price, cust.room, cust.bath, cust.car, cust.type, cust.furnish);
 }
 
-void printT(){
-	puts("|___________________________________________________|___________________|________________|___________|___________|___________|_____________________|____________________|");
-
-}
 int partitioningL(struct Hotel a[], int left, int right, char type[]) {
 	struct Hotel pivot = a[right];
 	int i = (left-1);
@@ -257,6 +257,7 @@ int main () {
 	char temp[10000];
 	FILE *p;
 	p=fopen("file.csv", "r");
+	if (p == NULL) return 0;
 	fscanf(p, "%[^\n]\n",temp);
 	int c=0, n;
 	Hotel cust[3940];
