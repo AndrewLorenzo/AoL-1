@@ -23,11 +23,9 @@ void printH(){
 	puts("|Location\t\t\t\t            |City\t        |Price           |Rooms      |Bathroom   |Carpark    |Type                 |Furnish             |");
 	printT();
 	}
-
 void printB(Hotel cust){
 	printf("|%-50s |%-18s |%-15lld |%-10d |%-10d |%-10d |%-20s |%-20s|\n", cust.location, cust.city, cust.price, cust.room, cust.bath, cust.car, cust.type, cust.furnish);
 }
-
 int partitioningL(struct Hotel a[], int left, int right, char type[]) {
 	struct Hotel pivot = a[right];
 	int i = (left-1);
@@ -254,20 +252,27 @@ void MainMenu () {
 	"5. Exit");
 }
 int main () {
-	char temp[10000];
+	char temp[1000];
 	FILE *p;
 	p=fopen("file.csv", "r");
-	if (p == NULL) return 0;
+	if (p == NULL) {
+		puts("File not found!!!");
+		return 0;
+	}
 	fscanf(p, "%[^\n]\n",temp);
 	int c=0, n;
-	Hotel cust[3940];
-	char col[101];
+	char col[20];
 	int r, jml;
 	long long int pr;
-	for (int i=0; !feof(p); i++) {
-		fscanf(p, "%[^,],%[^,],%lld,%d,%d,%d,%[^,],%[^\n]\n", cust[i].location, cust[i].city, &cust[i].price, &cust[i].room, &cust[i].bath, &cust[i].car, cust[i].type, cust[i].furnish);
+	while (!feof(p)) {
+		fscanf(p, "%[^\n]\n", temp);
 		jml++;
 	}
+	Hotel cust[jml];
+	fclose(p);
+	p=fopen("file.csv", "r");
+	fscanf(p, "%[^\n]\n",temp);
+	for (int i=0; !feof(p); i++) fscanf(p, "%[^,],%[^,],%lld,%d,%d,%d,%[^,],%[^\n]\n", cust[i].location, cust[i].city, &cust[i].price, &cust[i].room, &cust[i].bath, &cust[i].car, cust[i].type, cust[i].furnish);
 	fclose(p);
 	do {
 		MainMenu();
@@ -278,12 +283,16 @@ int main () {
 			printf("Total data : %d\n", jml);
 			printf("Number of rows: ");
 			scanf("%d", &n);
-			getchar();// 
+			getchar();
+			if (n > jml) {
+				puts("Exceeding total amount of data!!!");
+				system("pause");
+				system("cls");
+				continue;
+			}
 			system("cls");
 			printH();
-			for (int i=0; i<n; i++) {
-				printB(cust[i]);
-			}
+			for (int i=0; i<n; i++) printB(cust[i]);
 			printT();
 		}
 		else if (c==2) {
@@ -292,6 +301,7 @@ int main () {
 			scanf("%s", col);
 			getchar();
 			char loc[101];
+			short int p = 0;
 			if (strcmpi(col,"Location")==0) {
 				printf("What data do you want to find? ");
 				scanf("%[^\n]", loc);
@@ -299,19 +309,16 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (strcmpi(loc, cust[i].location)==0) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].location)==0) printB(cust[i]);
-					}
+					for (int i=p; i<jml; i++) if (strcmpi(loc, cust[i].location)==0) printB(cust[i]);
 					printT();
 				}
-				else if (!isFound) {
-					puts("Data not found!");
-				}
+				else if (!isFound) puts("Data not found!");
 			}
 			else if (strcmpi(col,"Rooms")==0) {
 				printf("What data do you want to find? ");
@@ -320,20 +327,17 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (r==cust[i].room) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (r==cust[i].room) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (r==cust[i].room) printB(cust[i]);
 					printT();
 				}
-				else if (!isFound) {
-					puts("Data not found!");
-				}
+				else if (!isFound) puts("Data not found!");
 			}
 			else if (strcmpi(col,"Carpark")==0) {
 				printf("What data do you want to find? ");
@@ -342,20 +346,17 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (r==cust[i].car) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (r==cust[i].car) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (r==cust[i].car) printB(cust[i]);
 					printT();
 				}
-				else if (!isFound) {
-					puts("Data not found!");
-				}
+				else if (!isFound) puts("Data not found!");
 			}
 			else if (strcmpi(col,"Price")==0) {
 				printf("What data do you want to find? ");
@@ -364,20 +365,17 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (pr==cust[i].price) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (r==cust[i].car) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (r==cust[i].car) printB(cust[i]);
 					printT();
 				}
-				else if (!isFound) {
-					puts("Data not found!");
-				}
+				else if (!isFound) puts("Data not found!");
 			}
 			else if (strcmpi(col, "Bathroom")==0) {
 				printf("What data do you want to find? ");
@@ -386,20 +384,17 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (cust[i].bath==pr) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (cust[i].bath==pr) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (cust[i].bath==pr) printB(cust[i]);
 					printT();
 				}
-				else if (!isFound) {
-					puts("Data not found!");
-				}
+				else if (!isFound) puts("Data not found!");
 			}
 			else if (strcmpi(col, "Furnish")==0) {
 				printf("What data do you want to find [Partly | Fully | Unfurnished]? ");
@@ -414,14 +409,10 @@ int main () {
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].furnish)==0) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (strcmpi(loc, cust[i].furnish)==0) printB(cust[i]);
 					printT();
 				}
-				else {
-					puts("Data not found!");
-				}
+				else puts("Data not found!");
 			}
 			else if (strcmpi(col, "Type")==0) {
 				printf("What data do you want to find [Built-Up | Land-Area]? ");
@@ -430,24 +421,19 @@ int main () {
 				for (int i=0; i<jml; i++) {
 					if (strcmpi(loc, cust[i].type)==0) {
 						isFound=1;
+						p = i;
 						break;
 					}
 				}
 				if (isFound) {
 					puts("Data found. Detail of data: ");
 					printH();
-					for (int i=0; i<jml; i++) {
-						if (strcmpi(loc, cust[i].type)==0) printB(cust[i]);
-					}
+					for (int i=0; i<jml; i++) if (strcmpi(loc, cust[i].type)==0) printB(cust[i]);
 					printT();
 				}
-				else {
-					puts("Data not found!");
-				}
+				else puts("Data not found!");
 			}
-			else {
-				puts("Column Not Found!!!");
-			}
+			else puts("Column Not Found!!!");
 		}
 		else if (c==3) {
 			char type[100];
@@ -460,30 +446,14 @@ int main () {
 				getchar();
 			}
 			while (strcmpi(type,"asc")!=0 && strcmpi(type,"dsc")!=0);
-			if (strcmpi(col, "Location")==0) {
-				quickSortL(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Rooms")==0) {
-				quickSortR(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Price")==0) {
-				quickSortP(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Bathroom")==0) {
-				quickSortB(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Carpark")==0) {
-				quickSortC(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Type")==0) {
-				quickSortT(cust, 0, jml-1, type);
-			}
-			else if (strcmpi(col, "Furnish")==0) {
-				quickSortF(cust, 0, jml-1, type);
-			}
-			else {
-				puts("Column not found!!!");
-			}
+			if (strcmpi(col, "Location")==0) quickSortL(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Rooms")==0) quickSortR(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Price")==0) quickSortP(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Bathroom")==0) quickSortB(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Carpark")==0) quickSortC(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Type")==0) quickSortT(cust, 0, jml-1, type);
+			else if (strcmpi(col, "Furnish")==0) quickSortF(cust, 0, jml-1, type);
+			else puts("Column not found!!!");
 		}
 		else if (c==4) {
 			char fn[101];
@@ -493,13 +463,9 @@ int main () {
 			sprintf(fn, "%s.csv", fn);
 			printf("Data sucecssfully written to file %s\n", fn);
 			p = fopen(fn, "w");
-			for (int i=0; i<jml; i++) {
-				fprintf(p, "%s,%s,%lld,%d,%d,%d,%s,%s\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
-			}
+			for (int i=0; i<jml; i++) fprintf(p, "%s,%s,%lld,%d,%d,%d,%s,%s\n", cust[i].location, cust[i].city, cust[i].price, cust[i].room, cust[i].bath, cust[i].car, cust[i].type, cust[i].furnish);
 		}
-		else if (c!=5) {
-			puts("Invalid menu!!!");
-		}
+		else if (c!=5) puts("Invalid menu!!!");
 	}
 	while (c!=5);
 	puts("Thank you!\nHave a nice day :D");
